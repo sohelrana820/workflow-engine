@@ -133,3 +133,6 @@ Once installed and running, you can access Octoflow at:
 - **API Interface**: `http://localhost:3011`
 - **Web Interface**: `http://localhost:3012`
 - **RabbitMQ Admin**: `http://localhost:3011/api/docs`
+
+## Video Demo
+[Demo](https://youtu.be/JONbqOJeOW0)
