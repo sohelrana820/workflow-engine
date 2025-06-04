@@ -1,0 +1,88 @@
+version: "3.9"
+
+networks:
+  octoflow-app:
+    external: true
+
+volumes:
+  postgres_data:
+  rabbitmq_data:
+
+services:
+  backend:
+    image: ${COMPOSE_PROJECT_NAME}-backend:${DOCKER_BUILD_MODE:-prod}
+    volumes:
+      - ./backend:/home/appuser/appsrc
+    build:
+      context: ./backend
+      dockerfile: ../backend.Dockerfile  # Dockerfile is in the root directory
+      target: ${DOCKER_BUILD_MODE}
+    container_name: octoflow-backend
+    ports:
+      - "${BACK_ENT_PUBLISH_PORT}:3000"
+    networks:
+      - octoflow-app
+
+  frontend:
+    image: ${COMPOSE_PROJECT_NAME}-frontend:${DOCKER_BUILD_MODE:-prod}
+    volumes:
+      - ./frontend:/home/appuser/appsrc
+    env_file:
+      - ./frontend/.env
+    build:
+      context: ./frontend
+      dockerfile: ../frontend.Dockerfile  # Dockerfile is in the root directory
+      target: ${DOCKER_BUILD_MODE}
+    container_name: octoflow-frontend
+    ports:
+      - "${FRONT_ENT_PUBLISH_PORT}:3000"
+    environment:
+      - WDS_SOCKET_HOST=0.0.0.0
+      - WDS_SOCKET_PORT=3012
+      - CHOKIDAR_USEPOLLING=true
+      - BACKEND_APP_API_URL=${BACKEND_APP_API_URL}
+      - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
+      - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
+      - GOOGLE_REDIRECTION_URL=${GOOGLE_CLIENT_SECRET}
+    networks:
+      - octoflow-app
+
+  postgres:
+    image: postgres:15-alpine
+    container_name: octoflow-postgres
+    restart: always
+    ports:
+      - "${POSTGRES_DB_PORT}:5432"
+    environment:
+      POSTGRES_USER: '${POSTGRES_DB_USER}'
+      POSTGRES_PASSWORD: '${POSTGRES_DB_PASS}'
+      POSTGRES_DB: '${POSTGRES_DB_NAME}'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - octoflow-app
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: octoflow-rabbitmq
+    restart: always
+    ports:
+      - "${RABBITMQ_PORT}:5672"
+      - "${RABBITMQ_ADMIN_PORT}:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: '${RABBITMQ_USER}'
+      RABBITMQ_DEFAULT_PASS: '${RABBITMQ_PASS}'
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    networks:
+      - octoflow-app
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5

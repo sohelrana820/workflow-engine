@@ -1,0 +1,8 @@
+export enum WorkflowStatus {
+    ACTIVE = 'ACTIVE',
+    QUEUED = 'QUEUED',
+    PROCESSING = 'PROCESSING',
+    COMPLETED = 'SUCCESS',
+    FAILED = 'FAILED',
+    COMPLETED_WITH_ERRORS = 'COMPLETED_WITH_ERRORS',
+}

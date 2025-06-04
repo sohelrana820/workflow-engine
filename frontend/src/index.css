@@ -1,0 +1,259 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom styles for workflow builder */
+body {
+    margin: 0;
+    font-family: "Roboto", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+/* Node animations */
+.node-body {
+    transition: all 0.2s ease-in-out;
+}
+
+.node-body:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Connection handle hover effects */
+.connection-handle {
+    transition: all 0.2s ease-in-out;
+}
+
+.connection-handle:hover {
+    transform: scale(1.2);
+}
+
+/* Scrollbar styling */
+.overflow-y-auto::-webkit-scrollbar {
+    width: 6px;
+}
+
+.overflow-y-auto::-webkit-scrollbar-track {
+    background: #f1f5f9;
+    border-radius: 3px;
+}
+
+.overflow-y-auto::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 3px;
+}
+
+.overflow-y-auto::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+/* Custom animations */
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-5px);
+    }
+}
+
+.animate-float {
+    animation: float 3s ease-in-out infinite;
+}
+
+/* Canvas grid pattern */
+.workflow-canvas {
+    background-image: radial-gradient(circle, #e5e7eb 1px, transparent 1px);
+    background-size: 24px 24px;
+}
+
+/* Node type specific colors */
+.node-trigger {
+    @apply border-blue-500 bg-blue-50;
+}
+
+.node-enrichment {
+    @apply border-green-500 bg-green-50;
+}
+
+.node-fetch {
+    @apply border-cyan-500 bg-cyan-50;
+}
+
+.node-ai {
+    @apply border-purple-500 bg-purple-50;
+}
+
+.node-notification {
+    @apply border-yellow-500 bg-yellow-50;
+}
+
+.node-terminator {
+    @apply border-red-500 bg-red-50;
+}
+
+/* Button hover effects */
+.btn-primary {
+    @apply bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-colors font-medium;
+}
+
+.btn-secondary {
+    @apply bg-gray-200 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-300 transition-colors font-medium;
+}
+
+.btn-success {
+    @apply bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 transition-colors font-medium;
+}
+
+.btn-danger {
+    @apply bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 transition-colors font-medium;
+}
+
+/* Form elements */
+.form-input {
+    @apply w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent;
+}
+
+.form-select {
+    @apply w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent;
+}
+
+.form-textarea {
+    @apply w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent font-mono text-sm;
+}
+
+/* Workflow status colors */
+.status-draft {
+    @apply bg-gray-100 text-gray-800;
+}
+
+.status-active {
+    @apply bg-green-100 text-green-800;
+}
+
+.status-running {
+    @apply bg-blue-100 text-blue-800;
+}
+
+.status-completed {
+    @apply bg-green-100 text-green-800;
+}
+
+.status-failed {
+    @apply bg-red-100 text-red-800;
+}
+
+/* Loading animations */
+.loading-spinner {
+    border: 2px solid #f3f4f6;
+    border-top: 2px solid #3b82f6;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Tooltip styles */
+.tooltip {
+    @apply absolute z-50 px-2 py-1 text-xs bg-gray-800 text-white rounded shadow-lg;
+}
+
+/* Connection line animations */
+.connection-line {
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+    animation: draw 2s ease-in-out forwards;
+}
+
+@keyframes draw {
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+/* Minimap styles */
+.minimap {
+    @apply absolute bottom-4 right-4 bg-white rounded-lg shadow-lg border border-gray-200 p-3;
+}
+
+/* Custom checkbox styles */
+.checkbox {
+    @apply rounded border-gray-300 text-blue-600 focus:ring-blue-500;
+}
+
+/* Panel transitions */
+.slide-in-left {
+    animation: slideInLeft 0.3s ease-out;
+}
+
+.slide-in-right {
+    animation: slideInRight 0.3s ease-out;
+}
+
+@keyframes slideInLeft {
+    from {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .workflow-builder {
+        flex-direction: column;
+    }
+
+    .node-actions-panel {
+        width: 100%;
+        height: auto;
+    }
+
+    .node-editor-panel {
+        width: 100%;
+        height: 50vh;
+    }
+}
+
+.align-items-center {
+    align-items: center;
+}
+
+
+.integration-box {
+    min-height: 250px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
